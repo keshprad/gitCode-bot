@@ -22,7 +22,8 @@ def find_api_url(github_url):
     return api_url
 
 if __name__ == '__main__':
-    url = find_api_url('https://github.com/saggins/-PHP-OLD-sagg.in/blob/master/README.md')
-    code = get_code(url)
+    url = "https://github.com/keshprad/Algorithms/blob/master/BellmanFordShortestPath/bellman_ford.py"
+    api_url = find_api_url(url)
+    code = get_code(api_url)
     print(code)
-    print(url)
+    print(api_url)
