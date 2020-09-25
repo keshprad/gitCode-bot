@@ -2,7 +2,6 @@ import re
 import requests
 import discord
 from discord.ext import commands
-import random
 from bs4 import BeautifulSoup
 
 bot = commands.Bot(command_prefix='!')
@@ -15,14 +14,26 @@ async def on_ready():
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f"Pong! {round(bot.latency * 1000)}ms")
+    await ctx.send(f"{round(bot.latency * 1000)}ms")
 
 
 @bot.command()
 async def code(ctx, *, url):
-    api_url = find_api_url(url)
+    api_url, file_name = find_api_url(url)
     code = get_code(api_url)
-    await ctx.send(f"**Here's the code:** ```{code}```")
+
+    if len(code) <= 200:
+        await ctx.send(f"**Here's the code:** ```{code}```")
+    else:
+        # write to file
+        with open(file_name, "w") as file:
+            file.write(code)
+
+        # send file to Discord in message
+        with open(file_name, "rb") as file:
+            await ctx.send("Oh No!\nYour code was too long...\n\nMaybe try viewing your code as a file:",
+                           file=discord.File(file, file_name))
+
 
 
 def get_code(url):
@@ -35,11 +46,14 @@ def find_api_url(github_url):
     exclusions = ['https://', 'github.com/', 'github.com']
     url_data = re.sub('|'.join(exclusions), '', github_url)
     url_data = url_data.split(sep='/')
+    file_name = url_data[-1]
 
     file = {"user": url_data[0], "repo": url_data[1], "branch": url_data[3], "file_path": '/'.join(url_data[4:])}
 
     api_url = f"https://raw.githubusercontent.com/{file['user']}/{file['repo']}/{file['branch']}/{file['file_path']}"
-    return api_url
+    return api_url, "data/"+file_name
 
 
-bot.run(open("../bot_token", "r").read())
+with open("../bot_token", "r") as f:
+    bot_token = f.read()
+bot.run(bot_token)

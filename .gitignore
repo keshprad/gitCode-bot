@@ -127,3 +127,4 @@ dmypy.json
 .idea/
 
 bot_token
+src/data/
