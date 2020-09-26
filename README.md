@@ -20,4 +20,4 @@ However, Discord has a 2000 character cap on message lengths, so longer files ar
 </div>  
 
 ## Development
-When developing, make sure to add the Discord Bot token on the last line of `bot.py`. Replace {os.environ['TOKEN']} with the token
+When developing, make sure to add the Discord Bot token on the last line of `bot.py`. Replace `{os.environ['TOKEN']}` with the token
