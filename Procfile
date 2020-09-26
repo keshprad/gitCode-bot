@@ -1,1 +1,2 @@
-worker: python3 src/bot.py
+worker: cd src/
+worker: python3 bot.py
