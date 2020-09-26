@@ -1,8 +1,8 @@
 import re
+import os
 import requests
 import discord
 from discord.ext import commands
-from bs4 import BeautifulSoup
 
 bot = commands.Bot(command_prefix='!')
 
@@ -15,6 +15,11 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
     await ctx.send(f"{round(bot.latency * 1000)}ms")
+
+
+@bot.command()
+async def clear(ctx, amount=5):
+    await ctx.channel.purge(limit=amount+1)
 
 
 @bot.command()
@@ -33,7 +38,7 @@ async def code(ctx, *, url):
         with open(file_name, "rb") as file:
             await ctx.send("Oh No!\nYour code was too long...\n\nMaybe try viewing your code as a file:",
                            file=discord.File(file, file_name))
-
+            os.remove(file_name)
 
 
 def get_code(url):
@@ -54,6 +59,4 @@ def find_api_url(github_url):
     return api_url, "data/"+file_name
 
 
-with open("../bot_token", "r") as f:
-    bot_token = f.read()
-bot.run(bot_token)
+bot.run(os.environ['TOKEN'])
