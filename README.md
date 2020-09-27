@@ -1,5 +1,5 @@
 # gitCode-bot
-Click [here]( https://discord.com/oauth2/authorize?client_id=759050188382797875&scope=bot ) to invite gitCode Bot to your server!  
+Click [here]( https://discord.com/api/oauth2/authorize?client_id=759050188382797875&permissions=522304&scope=bot ) to invite gitCode Bot to your server!  
 ## About  
 A discord bot that gets the code file from any public repo on GitHub.  
 
